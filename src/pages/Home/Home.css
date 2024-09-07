@@ -1,0 +1,18 @@
+/* src/pages/MainPage.css */
+.container {
+    max-width: 100%;
+  }
+  
+  .search-bar .form-control {
+    border-radius: 0;
+  }
+  
+  .product-list .product-card {
+    height: 100%;
+  }
+  
+  .product-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+  

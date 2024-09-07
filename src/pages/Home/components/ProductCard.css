@@ -1,0 +1,56 @@
+/* General Card Styles */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color:aliceblue
+}
+
+/* Image Styling */
+.cardImg img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Body Styling */
+.card-body {
+  padding: 15px;
+  text-align: center; /* Optional: Center the text */
+  background-color:rgb(193, 222, 248);
+}
+
+/* Title Styling */
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+/* Text Styling */
+.card-text {
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+/* Button Styling */
+.btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Hover Effect */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #00aced; /* Optional: Change border color on hover */
+}

@@ -1,0 +1,22 @@
+/* Navbar.css */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures it stays above other content */
+    background-color:rgb(177, 231, 240);
+  }
+.nav-item{
+    padding: 2%;
+    
+}
+.btn{
+    width:max-content;
+}
+.navbar-brand img{
+    max-width: 150px;
+    max-height: 60px;
+}
+.navbar-brand{
+    padding: 0;
+}
