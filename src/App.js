@@ -2,7 +2,7 @@ import './App.css';
 
 import Login from './pages/LoginPage/LoginPage';
 import LandingPage from './pages/LandingPage/LandingPage';
-
+import ProductDetails from './pages/ProductDetails/ProductDetails';
 
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -25,6 +25,7 @@ function App() {
           <Route path='/medical-register' element={<MedicalRegisterPage/>}/>
           <Route path='/med-home' element={<Home/>}/>
           <Route path='/admin' element={<AdminHome/>}/>
+          <Route path="/:name" element={<ProductDetails />} />
         </Routes>
       </div>
     </Router>

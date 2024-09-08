@@ -4,15 +4,15 @@ export default function AdminHome() {
     async function handleSubmit() {
         try {
             await api.post("/products",{
-                name:"RetrafloxOz",
-                hsn:30042034,
-                batchNo:"WT2563E",
+                name:"ConimontL",
+                hsn:30041090,
+                batchNo:"WD169A",
                 pack:"10x10",
-                expiry:"25-08-2025",
+                expiry:"01-05-2025",
                 mrp:120,
                 rate:96,
-                type:"Tablets",
-                contents:["Ofloxacin 200mg","Ornidazole 500mg"]
+                type:"Tablets ",
+                contents:["Montelukast 400mg","Levocitrezene  7mg"]
             });
             
         } catch (err) {

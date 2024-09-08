@@ -5,8 +5,11 @@ import logo from '../../../assets/LogoDark.png'
 import accImg from '../../../assets/accImg2.jpeg'
 const MedicalMainNav = () => {
   const navigate = useNavigate();
-  
-
+  const medicalNameData=localStorage.getItem('medicalName');
+  const handleLogOut=()=>{
+    localStorage.removeItem('medicalName');
+    navigate('/');
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -33,13 +36,13 @@ const MedicalMainNav = () => {
           <div className="dropdown ms-auto">
             <button className="btn dropdown-toggle d-flex align-items-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style={{backgroundColor:'rgb(177, 231, 240)'}}>
               <img src={accImg} alt="User" className="rounded-circle me-2" style={{ width: '30px', height: '30px' }} />
-              <span style={{color:'black'}}>Medical Name</span>
+              <span style={{color:'black'}}>{medicalNameData}</span>
             </button>
             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
               <li><Link className="dropdown-item" to="/profile">My Profile</Link></li>
               <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
               <li><hr className="dropdown-divider" /></li>
-              <li><Link className="dropdown-item" to="/logout">Logout</Link></li>
+              <li><button className="dropdown-item" onClick={handleLogOut}>Logout</button></li>
             </ul>
           </div>
         </div>

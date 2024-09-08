@@ -20,8 +20,8 @@ const MainPage = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch products from the API
-    api.get('/products') // Replace with your API endpoint
+    
+    api.get('/products')
       .then(response => {
         setProducts(response.data);
         setFilteredProducts(response.data);

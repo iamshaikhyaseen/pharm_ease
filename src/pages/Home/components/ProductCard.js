@@ -2,12 +2,20 @@
 import React from 'react';
 import './ProductCard.css'
 import * as productImages from '../../../assets/Products/productImgs';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductCard = ({ product }) => {
   const productImage=productImages[product.name]
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    console.log(product.name)
+    navigate(`/${product.name}`);
+  };
+
   return (
-    <div className="card" style={{ width: '18rem' }}>   
+    <div className="card" style={{ width: '18rem' }} onClick={handleClick}>   
       <div className="cardImg">
       <img src={productImage} className="card-img-top" alt={product.name} />
       </div>

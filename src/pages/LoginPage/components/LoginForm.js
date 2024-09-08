@@ -20,7 +20,8 @@ export default function() {
           });
 
           if (response.status === 200) {
-            
+            const medical=response.data;
+            localStorage.setItem('medicalName',medical.name)
               alert('Login successful!');
               navigate("/med-home")
           }
