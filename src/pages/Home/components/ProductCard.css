@@ -18,19 +18,19 @@
 .card-body {
   padding: 15px;
   text-align: center; /* Optional: Center the text */
-  background-color:rgb(193, 222, 248);
+  background-color:#AFDDEF;
 }
 
 /* Title Styling */
 .card-title {
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
-  color: #333;
+  color: #003135;
 }
 
 /* Text Styling */
 .card-text {
-  color: #555;
+  color: #003135;
   margin-bottom: 0.75rem;
 }
 

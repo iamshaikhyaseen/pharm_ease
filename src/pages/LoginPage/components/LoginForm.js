@@ -3,7 +3,7 @@ import './LoginForm.css'
 import api from '../../../axiosConfig'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../../assets/LogoDark.png'
-import loginImg from '../../../assets/Light Background Wallpaper.jpg'
+
 export default function() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

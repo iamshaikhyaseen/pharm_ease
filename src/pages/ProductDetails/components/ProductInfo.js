@@ -8,6 +8,7 @@ const ProductInfo = ({ product }) => {
       <p>{product.description}</p>
       <p><strong>Type:</strong> {product.type}</p>
       <p><strong>MRP:</strong> ₹{product.mrp}</p>
+      <p><strong>Rate:</strong> ₹{product.rate}</p>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 .footer {
     background-color:aliceblue;
-    color:black;
+    color:#003135;
     padding: 20px 0;
     text-align: center;
     position: relative;
@@ -35,7 +35,7 @@
   }
   
   .social-icons a {
-    color:black;
+    color:#003135;
     margin: 0 10px;
     text-decoration: none;
     font-size: 1.5em;
