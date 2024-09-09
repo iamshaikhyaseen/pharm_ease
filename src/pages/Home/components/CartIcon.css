@@ -1,0 +1,22 @@
+.floating-cart-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f8b525;  /* Customize the color to match your theme */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;  /* Ensure it's on top of other content */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .floating-cart-icon:hover {
+    background-color: #135ab5;  /* Darken on hover */
+    transform: scale(1.1);  /* Slightly enlarge on hover */
+  }
+  

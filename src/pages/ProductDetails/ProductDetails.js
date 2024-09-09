@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductImageZoom from './components/ProductImageZoom';
 import BuySection from './components/BuySection';
 import ProductInfo from './components/ProductInfo';
+import { CartContext } from '../Cart/CartContext';
 import './ProductDetails.css'; // For custom styling
 import Footer from '../Home/components/Footer'
 import Navbar from '../Home/components/MedicalMainNav'
 import * as ProductImages from '../../assets/Products/productImgs'
+import CartIcon from '../Home/components/CartIcon';
 
 const ProductDetails = () => {
   const { name } = useParams();
+  const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [quantity,setQuantity]=useState(1);
 
@@ -34,6 +37,7 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     console.log(`Added ${quantity} of ${product.name} to the cart`);
+    addToCart(product,quantity);
   };
 
   const handleBuyNow = () => {
@@ -47,6 +51,7 @@ const ProductDetails = () => {
     <>
     <Navbar/>
     <div className="product-details-container">
+      <CartIcon/>
     <div className="product-image-section">
       <div className="image-wrapper">
         <img src={productImage} alt={product.name} className="zoomable-image" />

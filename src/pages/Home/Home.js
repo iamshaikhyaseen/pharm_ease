@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import './Home.css';
 // API
 import api from '../../axiosConfig';
+import CartIcon from './components/CartIcon';
 //Images
 
 
@@ -39,6 +40,10 @@ const MainPage = () => {
     setFilteredProducts(products.filter(p => p.type === category));
   };
 
+  const handleClearFilter = () => {
+    setFilteredProducts(products); // Show all products
+  };
+
   const handleSort = (sortOption) => {
     let sortedProducts;
     switch (sortOption) {
@@ -63,10 +68,11 @@ const MainPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-4">
+      <div className="container">
+        <CartIcon/>
         <SearchBar onSearch={handleSearch} />
         <Carousel />
-        <CategoryFilter categories={['Capsules', 'Tablets', 'Syrups']} onSelectCategory={handleCategorySelect} />
+        <CategoryFilter categories={['Capsules', 'Tablets', 'Syrups']} onSelectCategory={handleCategorySelect} onClearFilter={handleClearFilter} />
         <SortOptions onSort={handleSort} />
         <ProductList products={filteredProducts} />
         <Footer />

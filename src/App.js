@@ -9,13 +9,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MedicalRegisterPage from './pages/RegistrationPage/RegistrationPage';
 import Home from './pages/Home/Home';
 import AdminHome from './pages/Admin/AdminHome';
+import Cart from './pages/Cart/Cart';
+import { CartProvider } from './pages/Cart/CartContext';
 
 
 
 
 function App() {
   return (
-    <>
+    <CartProvider>
     <Router>
       <div className="App">
         
@@ -26,10 +28,11 @@ function App() {
           <Route path='/med-home' element={<Home/>}/>
           <Route path='/admin' element={<AdminHome/>}/>
           <Route path="/:name" element={<ProductDetails />} />
+          <Route path='/cart' element={<Cart/>}/>
         </Routes>
       </div>
     </Router>
-    </>
+    </CartProvider>
   );
 }
 

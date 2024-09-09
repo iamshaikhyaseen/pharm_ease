@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
         <h5 className="card-title">{product.name}</h5>
         <p className="card-text">{product.contents[0]+"+"+product.contents[1]}</p>
         <p className="card-text">Rs.{product.mrp}</p> 
-        <button className="btn btn-primary">Add to Cart</button>
+        <button className="btn btn-primary">Order Now</button>
         
       </div>
     </div>

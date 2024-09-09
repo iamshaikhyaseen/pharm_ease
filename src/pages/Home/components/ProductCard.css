@@ -4,7 +4,8 @@
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color:aliceblue
+  background-color:aliceblue;
+
 }
 
 /* Image Styling */
@@ -23,7 +24,7 @@
 
 /* Title Styling */
 .card-title {
-  font-size: 1.25rem;
+  font-size: 1.55rem;
   margin-bottom: 0.75rem;
   color: #003135;
 }
@@ -36,7 +37,7 @@
 
 /* Button Styling */
 .btn {
-  background-color: #007bff;
+  background-color: #eea300;
   border: none;
   color: white;
   padding: 10px 20px;

@@ -7,6 +7,7 @@
   .search-bar .form-control {
     border-radius: 0;
   }
+ 
   
   .product-list .product-card {
     height: 100%;
@@ -16,4 +17,5 @@
     height: 200px;
     object-fit: cover;
   }
+
   

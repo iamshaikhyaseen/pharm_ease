@@ -1,7 +1,7 @@
 // src/components/CategoryFilter.js
 import React from 'react';
 import './categoryFilter.css'
-const CategoryFilter = ({ categories, onSelectCategory }) => {
+const CategoryFilter = ({ categories, onSelectCategory, onClearFilter }) => {
   return (
     <div className="containerCategory">
     <div className="btn-group" role="group" aria-label="Basic example">
@@ -14,7 +14,15 @@ const CategoryFilter = ({ categories, onSelectCategory }) => {
         >
           {category}
         </button>
+        
       ))}
+      <button
+          type="button"
+          className="btn btn-outline-danger"
+          onClick={onClearFilter}
+        >
+          Clear
+        </button>
     </div>
     </div>
   );
