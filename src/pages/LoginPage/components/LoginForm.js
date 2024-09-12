@@ -22,6 +22,11 @@ export default function() {
           if (response.status === 200) {
             const medical=response.data;
             localStorage.setItem('medicalName',medical.name)
+            localStorage.setItem('medicalRegion',medical.region)
+            localStorage.setItem('medicalGstIn',medical.gstIn)
+            localStorage.setItem('medicalDlNo',medical.dlNo)
+            localStorage.setItem('medicalAddress',medical.address)
+            localStorage.setItem('medicalId',medical._id)
             console.log("Login Successfull");  
             navigate("/med-home")
           }

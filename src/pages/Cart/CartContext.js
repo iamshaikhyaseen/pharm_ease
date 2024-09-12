@@ -26,13 +26,23 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const removeFromCart = (product) => {
+    setCartItems((prevItems) =>
+      prevItems.filter(item => item.name !== product.name)
+    );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);  // This clears all items from the cart
+  };
+
   // Calculate total price of the cart
   const calculateTotal = () => {
     return cartItems.reduce((acc, item) => acc + item.rate * item.quantity, 0);
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart,updateQuantity, calculateTotal }}>
+    <CartContext.Provider value={{ cartItems, addToCart,updateQuantity, calculateTotal, removeFromCart,clearCart}}>
       {children}
     </CartContext.Provider>
   );

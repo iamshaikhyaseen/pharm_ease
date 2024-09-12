@@ -1,8 +1,5 @@
 import React, { useState, useEffect,useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductImageZoom from './components/ProductImageZoom';
-import BuySection from './components/BuySection';
-import ProductInfo from './components/ProductInfo';
 import { CartContext } from '../Cart/CartContext';
 import './ProductDetails.css'; // For custom styling
 import Footer from '../Home/components/Footer'
@@ -59,12 +56,14 @@ const ProductDetails = () => {
     </div>
     <div className="product-info-section">
       <h1 className="product-name">{product.name}</h1>
-      <p className="product-description">Contents: {product.contents.join(', ')}</p>
-      <p><strong>HSN:</strong> {product.hsn}</p>
-      <p><strong>Batch No:</strong> {product.batchNo}</p>
-      <p><strong>Expiry:</strong> {product.expiry}</p>
-      <p><strong>MRP:</strong> ₹{product.mrp}</p>
-      <p><strong>Rate:</strong> ₹{product.rate}</p>
+      <p className="product-description">{product.description}</p>
+      <p><strong>Contents : {product.contents.join(', ')}</strong> </p>
+      
+      <p><strong>HSN :</strong> {product.hsn}</p>
+      <p><strong>Batch No :</strong> {product.batchNo}</p>
+      <p><strong>Expiry :</strong> {product.expiry}</p>
+      <p><strong>MRP :</strong> ₹{product.mrp}</p>
+      <p><strong>Rate :</strong> ₹{product.rate}</p>
 
       {/* Quantity Selector */}
       <div className="quantity-section">

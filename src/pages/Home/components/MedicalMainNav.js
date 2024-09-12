@@ -48,13 +48,13 @@ const MedicalMainNav = () => {
           <div className="dropdown">
             <ul>
               <li>
-                <Link className="dropdown-item" to="/profile">
+                <Link className="dropdown-item" to="/med-home/profile">
                 <img src={profImg} alt=""/>
                   My Profile
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/settings">
+                <Link className="dropdown-item" to="/med-home/orders">
                 <img src={orders} alt="" />
                   Orders
                 </Link>
