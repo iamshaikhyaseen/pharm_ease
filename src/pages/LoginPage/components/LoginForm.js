@@ -1,14 +1,16 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import './LoginForm.css'
 import api from '../../../axiosConfig'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../../assets/LogoDark.png'
+import { MedicalContext } from './MedicalContext'
 
 export default function() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const {setMedical}=useContext(MedicalContext);
 
     const handleLogin = async (e) => {
       e.preventDefault();
@@ -20,13 +22,14 @@ export default function() {
           });
 
           if (response.status === 200) {
-            const medical=response.data;
-            localStorage.setItem('medicalName',medical.name)
-            localStorage.setItem('medicalRegion',medical.region)
-            localStorage.setItem('medicalGstIn',medical.gstIn)
-            localStorage.setItem('medicalDlNo',medical.dlNo)
-            localStorage.setItem('medicalAddress',medical.address)
-            localStorage.setItem('medicalId',medical._id)
+            setMedical(response.data);
+            // const medical=response.data;
+            // localStorage.setItem('medicalName',medical.name)
+            // localStorage.setItem('medicalRegion',medical.region)
+            // localStorage.setItem('medicalGstIn',medical.gstIn)
+            // localStorage.setItem('medicalDlNo',medical.dlNo)
+            // localStorage.setItem('medicalAddress',medical.address)
+            // localStorage.setItem('medicalId',medical._id)
             console.log("Login Successfull");  
             navigate("/med-home")
           }

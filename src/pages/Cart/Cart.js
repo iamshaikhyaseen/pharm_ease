@@ -1,5 +1,6 @@
 import React, { useContext,useState } from 'react';
 import { CartContext } from './CartContext';
+import { MedicalContext } from '../LoginPage/components/MedicalContext';
 import './Cart.css';
 import { FaShoppingCart } from 'react-icons/fa';
 import Navbar from '../Home/components/MedicalMainNav'
@@ -12,6 +13,8 @@ import 'jspdf-autotable';
 import api from '../../axiosConfig'
 
 const Cart = () => {
+  const {medicalData}=useContext(MedicalContext);
+  
   const { cartItems,updateQuantity,calculateTotal,removeFromCart,clearCart} = useContext(CartContext);
   const navigate=useNavigate();
   const [showPaymentSection, setShowPaymentSection] = useState(false);
@@ -116,12 +119,12 @@ const Cart = () => {
       
       date: new Date().toISOString().split('T')[0],
       dueDate: new Date(new Date().setDate(new Date().getDate() + 15)).toISOString().split('T')[0],
-      
-      medicalName: localStorage.getItem('medicalName'),
-      medicalAddress: localStorage.getItem('medicalAddress'),  // Replace with actual data
-      medicalRegion: localStorage.getItem('medicalRegion'),
-      gstin: localStorage.getItem('medicalGstIn'),
-      dlno: localStorage.getItem('medicalDlNo'),
+      medicalId:medicalData._id,
+      medicalName: medicalData.name,
+      medicalAddress: medicalData.address,  // Replace with actual data
+      medicalRegion: medicalData.region,
+      gstin: medicalData.gstIn,
+      dlno: medicalData.dlNo,
       products: cartItems.map(item => ({
         name: item.name,
         batchNo: item.batchNo,

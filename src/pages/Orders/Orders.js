@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import './Orders.css';
-
+import { MedicalContext } from '../LoginPage/components/MedicalContext';
 const Orders = () => {
+  const {medicalData}=useContext(MedicalContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,9 +11,8 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const medicalNameData = localStorage.getItem('medicalName'); // Retrieve medical name from local storage
         const response = await api.get('/bills'); // Fetch all bills (replace with the appropriate API call)
-        const filteredOrders = response.data.filter(order => order.medicalName === medicalNameData); // Filter bills by the logged-in medical name
+        const filteredOrders = response.data.filter(order => order.medicalId === medicalData._id); // Filter bills by the logged-in medical name
         setOrders(filteredOrders);
         setLoading(false);
       } catch (err) {

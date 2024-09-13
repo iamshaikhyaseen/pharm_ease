@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import './Profile.css';
-
+import { MedicalContext } from '../LoginPage/components/MedicalContext';
 const Profile = () => {
+  const {medicalData}=useContext(MedicalContext);
   const [profileData, setProfileData] = useState({
     name: '',
     address: '',
@@ -21,8 +22,8 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const medicalIdData = localStorage.getItem('medicalId');
-        const response = await api.get(`/medicals/${medicalIdData}`);
+        
+        const response = await api.get(`/medicals/${medicalData._id}`);
         setProfileData(response.data);
         setLoading(false);
       } catch (err) {

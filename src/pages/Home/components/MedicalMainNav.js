@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/LogoDark.png';
 import accImg from '../../../assets/Icons/user-tie-solid.svg';
@@ -6,13 +6,15 @@ import profImg from '../../../assets/Icons/user-pen-solid.svg';
 import logout from '../../../assets/Icons/Logout.svg'
 import orders from '../../../assets/Icons/truck-solid.svg'
 import './MedicalMainNav.css';  // Custom CSS for styling
+import { MedicalContext } from '../../LoginPage/components/MedicalContext';
 
 const MedicalMainNav = () => {
   const navigate = useNavigate();
-  const medicalNameData = localStorage.getItem('medicalName');
+  const {medicalData}=useContext(MedicalContext);
+  console.log(medicalData);
 
   const handleLogOut = () => {
-    localStorage.removeItem('medicalName');
+    
     navigate('/');
   };
 
@@ -41,7 +43,7 @@ const MedicalMainNav = () => {
       <div className="profile-section" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
         <div className="profile-button">
           <img src={accImg} alt="Profile" className="profile-img" />
-          <span className="profile-name">{medicalNameData}</span>
+          <span className="profile-name">{medicalData.name}</span>
         </div>
 
         {isOpen && (
