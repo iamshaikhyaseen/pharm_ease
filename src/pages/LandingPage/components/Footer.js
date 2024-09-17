@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.css'
-
+import { Link } from 'react-router-dom'
 export default function () {
   return (
     <>
@@ -26,6 +26,7 @@ export default function () {
       <a href="#"><i className="fab fa-twitter">twitter</i></a>
       <a href="#"><i className="fab fa-instagram">instagram</i></a>
     </div>
+    <Link to="/admin-login">admin</Link>
   </div>
 
 </div>

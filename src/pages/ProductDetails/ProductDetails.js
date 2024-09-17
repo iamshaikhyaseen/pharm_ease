@@ -4,29 +4,29 @@ import { CartContext } from '../Cart/CartContext';
 import './ProductDetails.css'; // For custom styling
 import Footer from '../Home/components/Footer'
 import Navbar from '../Home/components/MedicalMainNav'
-import * as ProductImages from '../../assets/Products/productImgs'
 import CartIcon from '../Home/components/CartIcon';
+import api from '../../axiosConfig'
 
 const ProductDetails = () => {
-  const { name } = useParams();
+  const {id} = useParams();
+  console.log("Id: "+id);
   const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [quantity,setQuantity]=useState(1);
-
+  const fetchProduct = async () => {
+    try {
+        const response = await api.get(`/products/${id}`);
+        const productData = await response.data;
+        console.log("Product data: "+response.data);
+        
+        setProduct(productData);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+};
   useEffect(() => {
-    const fetchProduct = async () => {
-        try {
-            
-            const response = await fetch(`http://localhost:8080/api/products/${name}`);
-            const productData = await response.json();
-            setProduct(productData);
-          } catch (error) {
-            console.error('Error fetching product:', error);
-          }
-    };
-    
     fetchProduct();
-  }, [name]);
+  }, [id]);
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
@@ -42,7 +42,7 @@ const ProductDetails = () => {
   };
 
   if (!product) return <div>Loading...</div>;
-  const productImage=ProductImages[product.name]
+
 
   return (
     <>
@@ -51,7 +51,7 @@ const ProductDetails = () => {
       <CartIcon/>
     <div className="product-image-section">
       <div className="image-wrapper">
-        <img src={productImage} alt={product.name} className="zoomable-image" />
+        <img src={product.imageUrl} alt={product.name} className="zoomable-image" />
       </div>
     </div>
     <div className="product-info-section">

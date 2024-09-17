@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import './Profile.css';
+import Footer from '../Home/components/Footer'
+import Navbar from '../Home/components/MedicalMainNav'
+import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';  // For confirmation dialog
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { MedicalContext } from '../LoginPage/components/MedicalContext';
 const Profile = () => {
   const {medicalData}=useContext(MedicalContext);
@@ -89,9 +95,11 @@ const Profile = () => {
     try {
       await api.put(`/medicals/${profileData._id}`, profileData);
       setSuccessMessage('Profile updated successfully!');
+      toast.success("Profile Updated Successfully")
       setIsEditing(false);
     } catch (err) {
       setError('Failed to update profile');
+      toast.error("Profile Update failed!");
     }
   };
 
@@ -102,9 +110,12 @@ const Profile = () => {
   if (error) {
     return <div>{error}</div>;
   }
-
+ 
   return (
+    <>
+    <Navbar/>
     <div className="profile-container">
+      <ToastContainer position="bottom-right" autoClose={3000} />
       <h2>Your Profile</h2>
       {successMessage && <div className="success-message">{successMessage}</div>}
       <div className="profile-info">
@@ -201,6 +212,8 @@ const Profile = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

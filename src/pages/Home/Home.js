@@ -75,8 +75,9 @@ const MainPage = () => {
         <CategoryFilter categories={['Capsules', 'Tablets', 'Syrups']} onSelectCategory={handleCategorySelect} onClearFilter={handleClearFilter} />
         <SortOptions onSort={handleSort} />
         <ProductList products={filteredProducts} />
-        <Footer />
+        
       </div>
+      <Footer />
     </div>
   );
 };

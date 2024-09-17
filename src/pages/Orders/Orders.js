@@ -59,7 +59,7 @@ const Orders = () => {
                     <ul>
                       {order.products.map(product => (
                         <li key={product.name}>
-                          {product.name} - {product.quantity} units
+                          {product.name} - {product.quantity} units &nbsp;&nbsp; ₹{product.totalPrice}
                         </li>
                       ))}
                     </ul>

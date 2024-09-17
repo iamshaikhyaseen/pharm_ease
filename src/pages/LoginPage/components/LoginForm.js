@@ -1,4 +1,5 @@
 import React,{useContext, useState} from 'react'
+import emailjs from 'emailjs-com';
 import './LoginForm.css'
 import api from '../../../axiosConfig'
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,6 +13,28 @@ export default function() {
   const navigate = useNavigate();
   const {setMedical}=useContext(MedicalContext);
 
+  const sendLoginEmail=(toEmail,name)=>{
+    const templateParams={
+      to_email:toEmail,
+      to_name:name,
+      message: `Dear ${name}, you have successfully logged into the system.`,
+    };
+    emailjs.send(
+      'service_yvuwvqn',
+      'template_7czqzxn',
+      templateParams,
+      'utLCHS91Mp0fQhpNZ'
+    )
+    .then(
+      (result) => {
+        console.log('Login Email sent:', result.text);
+      },
+      (error) => {
+        console.error('Failed to send email:', error.text);
+      }
+    );
+  };
+
     const handleLogin = async (e) => {
       e.preventDefault();
 
@@ -23,13 +46,7 @@ export default function() {
 
           if (response.status === 200) {
             setMedical(response.data);
-            // const medical=response.data;
-            // localStorage.setItem('medicalName',medical.name)
-            // localStorage.setItem('medicalRegion',medical.region)
-            // localStorage.setItem('medicalGstIn',medical.gstIn)
-            // localStorage.setItem('medicalDlNo',medical.dlNo)
-            // localStorage.setItem('medicalAddress',medical.address)
-            // localStorage.setItem('medicalId',medical._id)
+            sendLoginEmail(response.data.email,response.data.name)
             console.log("Login Successfull");  
             navigate("/med-home")
           }

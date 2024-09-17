@@ -18,7 +18,7 @@ const SearchBar = ({ onSearch }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button className="btn btn-outline-secondary" type="button" onClick={handleSearch} style={{backgroundColor:"#f8b525"}}>Search</button>
+      <button className="btn btn-outline-secondary" type="button" onClick={handleSearch}>Search</button>
     </div>
   );
 }

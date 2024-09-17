@@ -1,8 +1,8 @@
 // src/components/SortOptions.js
 import React from 'react';
-
 const SortOptions = ({ onSort }) => {
   return (
+    
     <div className="d-flex justify-content-end mb-3">
       <select className="form-select" onChange={(e) => onSort(e.target.value)}>
         <option value="">Sort by</option>
@@ -12,6 +12,7 @@ const SortOptions = ({ onSort }) => {
         <option value="name-desc">Name: Z to A</option>
       </select>
     </div>
+    
   );
 }
 

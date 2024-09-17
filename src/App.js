@@ -8,7 +8,9 @@ import ProductDetails from './pages/ProductDetails/ProductDetails';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MedicalRegisterPage from './pages/RegistrationPage/RegistrationPage';
 import Home from './pages/Home/Home';
-import AdminHome from './pages/Admin/AdminHome';
+import { AdminProvider } from './pages/Admin/Components/AdminContext';
+import AdminLogin from './pages/Admin/Components/AdminLogin';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 import Cart from './pages/Cart/Cart';
 import { CartProvider } from './pages/Cart/CartContext';
 import { MedicalProvider } from './pages/LoginPage/components/MedicalContext';
@@ -18,6 +20,7 @@ import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
+    <AdminProvider>
     <MedicalProvider>
     <CartProvider>
     <Router>
@@ -28,8 +31,9 @@ function App() {
           <Route path="/medical-login" element={<Login />} />
           <Route path='/medical-register' element={<MedicalRegisterPage/>}/>
           <Route path='/med-home' element={<Home/>}/>
-          <Route path='/admin' element={<AdminHome/>}/>
-          <Route path="/:name" element={<ProductDetails />} />
+          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
+          <Route path='/admin-login' element={<AdminLogin/>}/>
+          <Route path="/:id" element={<ProductDetails />} />
           <Route path='/cart' element={<Cart/>}/>
           <Route path="/med-home/orders" element={<Orders />} />
           <Route path="/med-home/profile" element={<Profile />} />
@@ -38,6 +42,7 @@ function App() {
     </Router>
     </CartProvider>
     </MedicalProvider>
+    </AdminProvider>
   );
 }
 

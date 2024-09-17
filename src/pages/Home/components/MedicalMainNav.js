@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../../assets/LogoDark.png';
+import { FaUserTie } from "react-icons/fa";
+import { IconContext } from 'react-icons';
+import logo from '../../../assets/LogoTest5.png';
 import accImg from '../../../assets/Icons/user-tie-solid.svg';
 import profImg from '../../../assets/Icons/user-pen-solid.svg';
 import logout from '../../../assets/Icons/Logout.svg'
@@ -42,7 +44,11 @@ const MedicalMainNav = () => {
 
       <div className="profile-section" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
         <div className="profile-button">
-          <img src={accImg} alt="Profile" className="profile-img" />
+        <IconContext.Provider value={{ color: "white", className: "global-class-name", size:"1.5em" }}>
+  <div>
+    <FaUserTie />
+  </div>
+</IconContext.Provider>
           <span className="profile-name">{medicalData.name}</span>
         </div>
 

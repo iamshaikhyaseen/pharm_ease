@@ -46,12 +46,12 @@
   }
   
   .btn-edit {
-    background-color: #4CAF50;
+    background-color: #1abc9c;
     color: white;
   }
   
   .btn-save {
-    background-color: #28a745;
+    background-color: #1abc9c;
     color: white;
   }
   
@@ -63,7 +63,7 @@
   
   .success-message {
     text-align: center;
-    color: green;
+    color: #1abc9c;
     margin-bottom: 20px;
   }
   

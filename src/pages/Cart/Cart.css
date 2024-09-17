@@ -2,7 +2,7 @@
   max-width:95%;
   margin: 0 auto;
   padding: 20px;
-  background-color: #0FA4AF;
+  background-color: #ecf0f1;
 }
 
 .cart-container1{
@@ -12,11 +12,12 @@
   justify-content: center;
   width: 100vw;
   height: 60vh;
-  background-color: aliceblue;
+  background-color: #ecf0f1;
 }
 
 .cart-container1 h1{
   padding-left: 2%;
+  color: #2c3e50;
 }
 .cart-items {
   display: flex;
@@ -31,7 +32,7 @@
 
 .cartLogo h1{
   padding-left: 1%;
-  color:aliceblue;
+  color:#2c3e50;
 }
 
 .cart-item {
@@ -39,9 +40,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: aliceblue;
+  background-color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .cart-item-image {
@@ -54,6 +55,7 @@
 .cart-item-details {
   flex-grow: 1;
   margin-left: 20px;
+  color: #2c3e50;
 }
 
 .cart-item-details h5 {
@@ -75,7 +77,7 @@
 
 .quantity-control button {
   padding: 3px 10px;
-  background-color: #1a73e8;
+  background-color: #1abc9c;
   color: white;
   border: none;
   cursor: pointer;
@@ -89,6 +91,7 @@
 .cart-item-price {
   font-weight: bold;
   font-size: 1.2rem;
+  color: #2c3e50;
 }
 
 .cart-total {
@@ -96,12 +99,13 @@
   margin-top: 20px;
   font-size: 1.5rem;
   font-weight: bold;
+  color: #2c3e50;
 }
 
 .btn-order-now {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #1a73e8;
+  background-color: #1abc9c;
   color: white;
   border: none;
   cursor: pointer;
@@ -109,7 +113,7 @@
 }
 
 .btn-order-now:hover {
-  background-color: #135ab5;
+  background-color: #0f8870;
 }
 
 .remove-button {
@@ -128,10 +132,10 @@
 
 .payment-section {
   margin-top: 20px;
-  background-color: #f9f9f9;
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 50%;
 }
 

@@ -1,16 +1,16 @@
-/* Container */
+
 .product-details-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    
     align-items: flex-start;
     margin: 50px;
-    color: #333;  /* Adjust color based on your theme */
-    background-color: aliceblue;
+    color: #333;
+    background-color: white;
+    border-radius: 4%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
   
-  /* Image Section */
   .product-image-section {
     flex: 1;
     max-width: 600px;
@@ -25,25 +25,27 @@
   .zoomable-image {
     width: 100%;
     height: auto;
-    transition: transform 0.3s ease;  /* Smooth zoom transition */
+    transition: transform 0.3s ease;
   }
   
   .zoomable-image:hover {
-    transform: scale(1.2);  /* Zoom effect */
+    transform: scale(1.2);
   }
   
-  /* Product Info Section */
   .product-info-section {
     flex: 1;
     max-width: 700px;
-    background-color: rgb(177, 231, 240);
+    background-color: #2c3e50;
     padding-left: 2%;
+    color: white;
+    padding: 2%;
+    border-top-right-radius: 4%;
+    border-bottom-right-radius: 4%;
   }
   
   .product-name {
     font-size: 2rem;
     margin-bottom: 20px;
-      /* Custom color for the theme */
   }
   
   .product-description {
@@ -51,7 +53,6 @@
     font-size: 1.2rem;
   }
   
-  /* Quantity Selector */
   .quantity-section {
     margin: 20px 0;
     font-size: 1.1rem;
@@ -64,7 +65,6 @@
     font-size: 1.1rem;
   }
   
-  /* Action Buttons */
   .action-buttons {
     display: flex;
     gap: 20px;
@@ -80,12 +80,12 @@
   }
   
   .btn-add-to-cart {
-    background-color: #1a73e8;
+    background-color: #2a8940;
     color: white;
   }
   
   .btn-add-to-cart:hover {
-    background-color: #135ab5;  /* Darker hover effect */
+    background-color: #2a8940;
   }
   
   .btn-buy-now {
@@ -94,7 +94,7 @@
   }
   
   .btn-buy-now:hover {
-    background-color: #2a8940;  /* Darker hover effect */
+    background-color: #2a8940;
   }
   
   /* Responsive Design */

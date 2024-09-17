@@ -2,19 +2,20 @@ import React, { useContext,useState } from 'react';
 import { CartContext } from './CartContext';
 import { MedicalContext } from '../LoginPage/components/MedicalContext';
 import './Cart.css';
+import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import 'react-toastify/dist/ReactToastify.css';
 import { FaShoppingCart } from 'react-icons/fa';
 import Navbar from '../Home/components/MedicalMainNav'
 import Footer from '../Home/components/Footer'
-import * as ProductImages from '../../assets/Products/productImgs'
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineDelete } from "react-icons/ai";
 import jsPDF from 'jspdf';  
 import 'jspdf-autotable'; 
+import emailjs from 'emailjs-com';
 import api from '../../axiosConfig'
 
 const Cart = () => {
   const {medicalData}=useContext(MedicalContext);
-  
   const { cartItems,updateQuantity,calculateTotal,removeFromCart,clearCart} = useContext(CartContext);
   const navigate=useNavigate();
   const [showPaymentSection, setShowPaymentSection] = useState(false);
@@ -29,6 +30,30 @@ const Cart = () => {
   const [billData, setBillData] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [paymentError, setPaymentError] = useState(''); 
+
+  const sendOrderMail=(toEmail,name)=>{
+    const templateParams = {
+      to_email: toEmail,
+      to_name: name,
+      message: `Dear ${name}, your order has been placed successfully.`,
+      order_id:billData._id,
+      
+    };
+    emailjs.send(
+      'service_yvuwvqn',
+      'template_eb26q9d',
+      templateParams,
+      'utLCHS91Mp0fQhpNZ'
+    )
+    .then(
+      (result) => {
+        console.log('Login Email sent:', result.text);
+      },
+      (error) => {
+        console.error('Failed to send email:', error.text);
+      }
+    );
+  };
   
   const handleQuantityChange = (product, quantity) => {
     if (quantity >= 1) {
@@ -91,6 +116,8 @@ const Cart = () => {
     });
     doc.text(`Grand Total: ₹${bill.grandTotal}`, 10, doc.previousAutoTable.finalY + 10);
     doc.save(`PharmEase${bill._id}.pdf`);
+
+    
   };
 
   const handleProceed = () => {
@@ -102,17 +129,8 @@ const Cart = () => {
       return;
     }
   const handleOrderSuccess = () => {
-      // Show the success modal
-      setShowSuccessModal(true);
-  
-      // Clear the cart
-      
-  
-      // Automatically hide the modal after 3 seconds
-      setTimeout(() => {
-        clearCart();
-      }, 2000);
-      
+    toast.success("Order Placed Successfully!");
+    clearCart();
     };
 
     const billDetails = {
@@ -126,6 +144,7 @@ const Cart = () => {
       gstin: medicalData.gstIn,
       dlno: medicalData.dlNo,
       products: cartItems.map(item => ({
+        _id:item._id,
         name: item.name,
         batchNo: item.batchNo,
         hsn: item.hsn,
@@ -142,11 +161,14 @@ const Cart = () => {
       .then(response => {
         const data = response.data;
         setBillData(data);
+        console.log("billData: "+data);
         setBillCreated(true);
+        sendOrderMail(medicalData.email,medicalData.name);
         generatePDF(data);
         handleOrderSuccess();  // Generate PDF after the bill is created
       })
       .catch(error => console.error('Error creating bill:', error));
+      toast.error("Failed to place Order!")
   };
 
   const showPaymentOptions = () => {
@@ -155,7 +177,7 @@ const Cart = () => {
 
   const handleProductClick = (e, product) => {
     e.stopPropagation();  // Prevent any event bubbling
-    navigate(`/${product.name}`);  // Navigate to the ProductDetails page
+    navigate(`/${product._id}`);  // Navigate to the ProductDetails page
   };
 
   const handleRemove = (product) => {
@@ -186,17 +208,18 @@ const Cart = () => {
     <Navbar/>
 
     <div className="cart-container">
+      <ToastContainer position="bottom-right" autoClose={3000}/>
       <div className="cartLogo">
-    <FaShoppingCart size={35} color="white" />
+    <FaShoppingCart size={35} color="#2c3e50" />
       <h1>Your Cart</h1>
       </div>
       <div className="cart-items">
 
         {cartItems.map((item) => (
 
-          <div className="cart-item" key={item.name} onClick={(e)=>handleProductClick(e,item)}>
+          <div className="cart-item" key={item._id} onClick={(e)=>handleProductClick(e,item)}>
 
-            <img src={ProductImages[item.name]} alt={item.name} className="cart-item-image" />
+            <img src={item.imageUrl} alt={item.name} className="cart-item-image" />
             <div className="cart-item-details">
 
               <h5>{item.name}</h5>
@@ -289,6 +312,7 @@ const Cart = () => {
                 placeholder="MM/YY"
                 value={cardDetails.expiryDate}
                 onChange={handleInputChange}
+                maxLength={5}
               />
               {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
               <label htmlFor="cvv">CVV:</label>

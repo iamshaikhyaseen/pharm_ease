@@ -2,9 +2,9 @@ import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import './Carousel.css'
 
-import trustImg from '../../../assets/Hundreds of Business trust us..png'
-import qualityImg from '../../../assets/Quality Products.png'
-import wideImg from '../../../assets/Wide spread.png'
+import trustImg from '../../../assets/Trust.png'
+import qualityImg from '../../../assets/QualityProducts.png'
+import wideImg from '../../../assets/WideNetwork.png'
 
 import {trust,wide1,quality1} from '../../../constants/strings'
 
