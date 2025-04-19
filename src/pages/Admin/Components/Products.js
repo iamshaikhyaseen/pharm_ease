@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../../axiosConfig';  // api instance for API calls
+import api from '../../../axiosConfig';
 import axios from 'axios';
-import './Products.css';  // Custom styles
-import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import './Products.css';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { confirmAlert } from 'react-confirm-alert';  // For confirmation dialog
+import { confirmAlert } from 'react-confirm-alert';  
 import 'react-confirm-alert/src/react-confirm-alert.css';
  
 const Products = () => {
@@ -36,6 +36,7 @@ const Products = () => {
   const fetchProducts = async () => {
     try {
       const response = await api.get('/products');
+      console.log(response.data);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -116,8 +117,6 @@ const Products = () => {
     try {
       const response = await api.post('/products', productData);  // Send product data to backend
       console.log("Product created:", response.data);
-
-      
       fetchProducts();  // Refresh product list
       resetForm();
       toast.success('Product added successfully!');
@@ -173,7 +172,7 @@ const Products = () => {
       stock:product.stock,
       imageUrl:product.imageUrl
     });
-    setImagePreview(product.imageUrl);  // Assuming you have an image URL field
+    setImagePreview(product.imageUrl);  
   };
 
   // Update an existing product
@@ -297,13 +296,13 @@ const Products = () => {
           </div>
           <div className="form-group">
             <label>Type</label>
-            <input
-              type="text"
-              name="type"
-              value={newProduct.type}
-              onChange={handleInputChange}
-              required
-            />
+            
+            <select name="type" value={newProduct.type} onChange={handleInputChange} required>
+            <option value="Capsules">Capsules</option>
+            <option value="Tablets">Tablets</option>
+            <option value="Syrups">Syrups</option>
+            <option value="Injections">Injections</option>
+            </select>
           </div>
           <div className="form-group">
             <label>Description</label>
@@ -328,9 +327,7 @@ const Products = () => {
           <div className="form-group">
             <label>Product Image</label>
             <input type="file" name="image" onChange={handleImageChange} />
-            {imagePreview && (
-              <img src={imagePreview}  className="image-preview" />
-            )}
+            
           </div>
           
           <button type="submit" className="btn-submit">

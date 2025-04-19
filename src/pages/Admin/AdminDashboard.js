@@ -13,6 +13,9 @@ const AdminDashboard = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [totalProducts,setTotalProducts]=useState(0);
+  const [totalMedicals,setTotalMedicals]=useState(0);
+  const [totalOrders,setTotalOrders]=useState(0);
+  const [totalSales,setTotalSales]=useState(0);
 
   useEffect(()=>{
     api.get("/products").then(response=>{
@@ -22,9 +25,71 @@ const AdminDashboard = () => {
       console.log(error);
     })
   },[]);
+  useEffect(()=>{
+    api.get("/medicals").then(response=>{
+      console.log(response.data.length);
+      setTotalMedicals(response.data.length);
+    }).catch(error=>{
+      console.log(error);
+    })
+  },[]);
+  useEffect(()=>{
+    api.get("/bills").then(response=>{
+      console.log(response.data.length);
+      setTotalOrders(response.data.length);
+    }).catch(error=>{
+      console.log(error);
+    })
+  },[]);
+
+  useEffect(()=>{
+      fetchTotalSales();
+    })
+
+    const handleSalesClick=()=>{ 
+        fetchTotalSales();
+    }
+
+    const handleOrderClick=()=>{
+      api.get("/bills").then(response=>{
+        console.log(response.data.length);
+        setTotalOrders(response.data.length);
+      }).catch(error=>{
+        console.log(error);
+      })
+    }
+
+    const handleMedicalClick=()=>{
+      api.get("/medicals").then(response=>{
+        console.log(response.data.length);
+        setTotalMedicals(response.data.length);
+      }).catch(error=>{
+        console.log(error);
+      })
+    }
+
+    const handleProductClick=()=>{
+      api.get("/products").then(response=>{
+        console.log(response.data.length);
+        setTotalProducts(response.data.length);
+      }).catch(error=>{
+        console.log(error);
+      })
+    }
+  
+    const fetchTotalSales=async()=>{
+      try{
+        const response= await api.get('/sales/totalSales');
+        setTotalSales(response.data);
+      }
+      catch(err){
+        console.log("Error in totalSales: ",err);
+      }
+    }
+
   
   if (!admin) {
-    return <Navigate to="/admin-login" />;  // Redirect to admin login if not authenticated
+    return <Navigate to="/" />;  // Redirect to admin login if not authenticated
   }
 
   
@@ -54,21 +119,21 @@ const AdminDashboard = () => {
       <div className={`dashboard-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <h2>Admin Overview</h2>
         <div className="dashboard-cards">
-          <div className="card">
+          <div className="card" onClick={handleProductClick}>
             <h3>Total Products</h3>
             <p>{totalProducts}</p>
           </div>
-          <div className="card" >
+          <div className="card" onClick={handleMedicalClick}>
             <h3>Total Medicals</h3>
-            <p>80</p>
+            <p>{totalMedicals}</p>
           </div>
-          <div className="card">
+          <div className="card" onClick={handleOrderClick}>
             <h3>Total Orders</h3>
-            <p>350</p>
+            <p>{totalOrders}</p>
           </div>
-          <div className="card">
+          <div className="card" onClick={handleSalesClick}>
             <h3>Total Sales</h3>
-            <p>₹5,00,000</p>
+            <p>{totalSales}</p>
           </div>
         </div>
 

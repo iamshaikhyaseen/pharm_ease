@@ -2,6 +2,8 @@ import React, { useState, useEffect,useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../Cart/CartContext';
 import './ProductDetails.css'; // For custom styling
+import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../Home/components/Footer'
 import Navbar from '../Home/components/MedicalMainNav'
 import CartIcon from '../Home/components/CartIcon';
@@ -35,6 +37,7 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     console.log(`Added ${quantity} of ${product.name} to the cart`);
     addToCart(product,quantity);
+    toast.success(`${product.name} added to cart!`)
   };
 
   const handleBuyNow = () => {
@@ -48,6 +51,7 @@ const ProductDetails = () => {
     <>
     <Navbar/>
     <div className="product-details-container">
+      <ToastContainer position='bottom-right' autoClose={1500}/>
       <CartIcon/>
     <div className="product-image-section">
       <div className="image-wrapper">
@@ -82,9 +86,7 @@ const ProductDetails = () => {
         <button className="btn btn-add-to-cart" onClick={handleAddToCart}>
           Add to Cart
         </button>
-        <button className="btn btn-buy-now" onClick={handleBuyNow}>
-          Buy Now
-        </button>
+        
       </div>
     </div>
   </div>

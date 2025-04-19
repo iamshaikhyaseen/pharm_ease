@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import './Orders.css';
 import { MedicalContext } from '../LoginPage/components/MedicalContext';
+import MedicalNavbar from '../Home/components/MedicalMainNav'
 const Orders = () => {
   const {medicalData}=useContext(MedicalContext);
   const [orders, setOrders] = useState([]);
@@ -32,7 +33,8 @@ const Orders = () => {
     return <div>{error}</div>;
   }
 
-  return (
+  return (<>
+  <MedicalNavbar/>
     <div className="orders-container">
       <h2>Your Orders</h2>
       <div className="orders-list">
@@ -72,6 +74,7 @@ const Orders = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

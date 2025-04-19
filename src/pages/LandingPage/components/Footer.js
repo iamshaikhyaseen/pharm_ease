@@ -22,9 +22,9 @@ export default function () {
   <div className="footer-section">
     <h3>Follow Us</h3>
     <div className="social-icons">
-      <a href="#"><i className="fab fa-facebook-f">facebook</i></a>
-      <a href="#"><i className="fab fa-twitter">twitter</i></a>
-      <a href="#"><i className="fab fa-instagram">instagram</i></a>
+      <Link to="#"><i className="fab fa-facebook-f">facebook</i></Link>
+      <Link to="#"><i className="fab fa-twitter">twitter</i></Link>
+      <Link to="#"><i className="fab fa-instagram">instagram</i></Link>
     </div>
     <Link to="/admin-login">admin</Link>
   </div>

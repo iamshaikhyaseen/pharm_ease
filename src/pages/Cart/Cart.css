@@ -193,6 +193,7 @@
 .btn-proceed:hover {
   background-color: #45a049;
 }
+
 .payment-option {
   display: flex;
   align-items: center;

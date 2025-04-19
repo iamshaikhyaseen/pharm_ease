@@ -16,6 +16,8 @@ import { CartProvider } from './pages/Cart/CartContext';
 import { MedicalProvider } from './pages/LoginPage/components/MedicalContext';
 import Orders from './pages/Orders/Orders';
 import Profile from './pages/Profile/Profile';
+import { ContactUs } from './pages/ContactUs/ContactUs';
+import { AboutUs } from './pages/AboutUs/AboutUs';
 
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
           <Route path='/cart' element={<Cart/>}/>
           <Route path="/med-home/orders" element={<Orders />} />
           <Route path="/med-home/profile" element={<Profile />} />
+          <Route path='/about' element={<AboutUs/>}/>
+          <Route path='/contact' element={<ContactUs/>}/>
         </Routes>
       </div>
     </Router>

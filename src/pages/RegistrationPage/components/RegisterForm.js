@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import './RegisterForm.css';
 import api from '../../../axiosConfig'
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import 'react-toastify/dist/ReactToastify.css';
+import logo from '../../../assets/LogoTest5.png'
 
 const MedicalRegistration = () => {
     const navigate=useNavigate();
@@ -38,9 +41,9 @@ const MedicalRegistration = () => {
 
     const gstinPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/;
     if (!formData.medicalGstin) {
-      newErrors.gstIn = "GSTIN is required";
+      newErrors.gstin = "GSTIN is required";
   } else if (!gstinPattern.test(formData.medicalGstin)) {
-      newErrors.gstIn = "GSTIN must be 15-character alphanumeric code.";
+      newErrors.gstin = "GSTIN must be 15-character alphanumeric code.";
   }
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,11 +71,11 @@ const MedicalRegistration = () => {
     if (validateForm()) {
       // Submit the form data to the backend
       try{
-      
-        await api.post("/medicals",
+        
+        await api.post("/medicals/signup",
           {
             name:formData.medicalName,
-            gstIn:formData.medicalGstin,
+            gstin:formData.medicalGstin,
             dlNo:formData.medicalDlno,
             address:formData.medicalAddress,
             region:formData.medicalRegion,
@@ -81,14 +84,16 @@ const MedicalRegistration = () => {
           },
           
         );
-        
+        alert('Medical registered successfully');
+        navigate("/medical-login");
       
-      }catch(err){
-        console.log(err)
-        
+      } catch (error) {
+        if (error.response && error.response.status === 409){
+          toast.error(error.response.data);  // Display the error message from the backend
+        } else {
+          console.error('Error registering medical:', error);
+        }
       }
-      console.log('Registration successful!', formData);
-      navigate("/med-home")
     } else {
       console.log('Validation failed.');
     }
@@ -96,8 +101,13 @@ const MedicalRegistration = () => {
 
   return (
     <div className="medical-registration-container">
+      <ToastContainer position="bottom-right" autoClose={3000}/>
       <form className="medical-registration-form" onSubmit={handleSubmit}>
+        <div className="logo">
+          <img src={logo} alt="logo" />
         <h2>Medical Registration</h2>
+        </div>
+        
         <div className="form-group">
           <label htmlFor="medicalName">Medical Name</label>
           <input
@@ -130,7 +140,7 @@ const MedicalRegistration = () => {
             onChange={handleChange}
             required
           />
-           {errors.gstIn && <span style={{color: 'red'}}>{errors.gstIn}</span>}
+           {errors.gstin && <span style={{color: 'red'}}>{errors.gstin}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="medicalRegion">Region</label>

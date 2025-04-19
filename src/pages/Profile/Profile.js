@@ -3,9 +3,9 @@ import api from '../../axiosConfig';
 import './Profile.css';
 import Footer from '../Home/components/Footer'
 import Navbar from '../Home/components/MedicalMainNav'
-import { toast, ToastContainer } from 'react-toastify';  // For toast notifications
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { confirmAlert } from 'react-confirm-alert';  // For confirmation dialog
+import { confirmAlert } from 'react-confirm-alert'; 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { MedicalContext } from '../LoginPage/components/MedicalContext';
 const Profile = () => {
@@ -14,7 +14,7 @@ const Profile = () => {
     name: '',
     address: '',
     region: '',
-    gstIn: '',
+    gstin: '',
     dlNo: '',
     email: '',
     password: ''
@@ -28,7 +28,6 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        
         const response = await api.get(`/medicals/${medicalData._id}`);
         setProfileData(response.data);
         setLoading(false);
@@ -45,15 +44,13 @@ const Profile = () => {
     let valid = true;
     let newErrors = {};
 
-    // Validate GSTIN (assuming a valid GSTIN is 15 characters long)
-    if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/.test(profileData.gstIn)) {
-      newErrors.gstIn = 'Invalid GSTIN format';
+    // Validate GSTIN
+    if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{3}$/.test(profileData.gstin)) {
+      newErrors.gstin = 'Invalid GSTIN format';
       valid = false;
     }
 
-    // Validate Drug License Number (example validation)
-    
-
+    // Validate Name
     if(!profileData.name.trim()){
         newErrors.name='Medical Name cannot be Empty'
         valid=false;
@@ -114,6 +111,7 @@ const Profile = () => {
   return (
     <>
     <Navbar/>
+    <div className="long">
     <div className="profile-container">
       <ToastContainer position="bottom-right" autoClose={3000} />
       <h2>Your Profile</h2>
@@ -158,11 +156,11 @@ const Profile = () => {
           id="gstIn"
           name="gstIn"
           required
-          value={profileData.gstIn}
+          value={profileData.gstin}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
-        {errors.gstIn && <p className="error-message">{errors.gstIn}</p>}
+        {errors.gstin && <p className="error-message">{errors.gstin}</p>}
 
         <label htmlFor="dlno">Drug License No.</label>
         <input
@@ -188,31 +186,13 @@ const Profile = () => {
         />
         {errors.email && <p className="error-message">{errors.email}</p>}
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={profileData.password}
-          onChange={handleInputChange}
-          disabled={!isEditing}
-          placeholder="Change Password"
-        />
-        {errors.password && <p className="error-message">{errors.password}</p>}
+        
 
-        <div className="profile-buttons">
-          {isEditing ? (
-            <>
-              <button className="btn-save" onClick={handleSave}>Save</button>
-              <button className="btn-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
-            </>
-          ) : (
-            <button className="btn-edit" onClick={() => setIsEditing(true)}>Edit Profile</button>
-          )}
-        </div>
+        
       </div>
     </div>
     <Footer/>
+    </div>
     </>
   );
 };

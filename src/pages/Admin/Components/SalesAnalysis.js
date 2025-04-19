@@ -1,32 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../../axiosConfig';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './SalesAnalysis.css'
-const data = [
-  { name: 'Jan', sales: 250 },
-  { name: 'Feb', sales: 1500 },
-  { name: 'Mar', sales: 1700 },
-  { name: 'Apr', sales: 2000 },
-  { name: 'May', sales: 2200 },
-  { name: 'June', sales: 1800 },
-  { name: 'July', sales: 1600 },
-  { name: 'Aug', sales: 1900 },
-  { name: 'Sep', sales: 2000 },
-  { name: 'Oct', sales: 2100 },
-  { name: 'Nov', sales: 2200 },
-  { name: 'Dec', sales: 2100 },
-  // Add more monthly data...
-];
+import { color } from 'framer-motion';
 
 const SalesAnalysis = () => {
+  const [salesData,setSalesData]=useState([]);
+  
+  useEffect(()=>{
+    fetchSalesData();
+  },[])
+
+  
+  const fetchSalesData = async () => {
+    try {
+      const response = await api.get('/sales'); // Adjust API endpoint if needed
+      const rawData = response.data;
+
+      // Transform backend data to fit Recharts format
+      const formattedData = rawData.reduce((acc, sale) => {
+        const month = new Date(sale.date).toLocaleString('default', { month: 'short' }); // Get month abbreviation
+        const existingMonth = acc.find(item => item.name === month);
+
+        if (existingMonth) {
+          existingMonth.sales += sale.totalAmount;
+        } else {
+          acc.push({ name: month, sales: sale.totalAmount });
+        }
+        return acc;
+      }, []);
+
+      setSalesData(formattedData);
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+    }
+  };
+
   return (
-    <div>
-      <h2>Sales Analysis</h2>
+    <div className='sal' onClick={fetchSalesData}>
+      <h2 >Sales Analysis</h2>
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
+        <LineChart data={salesData}>
           <Line type="monotone" dataKey="sales" stroke="#1abc9c" strokeWidth={2} />
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <CartesianGrid stroke='white' />
+          <XAxis dataKey="name" stroke='white' />
+          <YAxis stroke='white'/>
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>

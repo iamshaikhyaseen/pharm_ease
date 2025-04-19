@@ -26,6 +26,8 @@ const MainPage = () => {
       .then(response => {
         setProducts(response.data);
         setFilteredProducts(response.data);
+        console.log(response.data);
+        
       })
       .catch(error => {
         console.error('Error fetching products:', error);

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import quality from '../../../assets/Quality Products.png'
-import medicals from '../../../assets/Hundreds of Business trust us..png'
-import wide from '../../../assets/Wide spread.png'
+import quality from '../../../assets/QualityProducts.png'
+import medicals from '../../../assets/Trust.png'
+import wide from '../../../assets/WideNetwork.png'
 import {trust,wide1,quality1} from '../../../constants/strings'
 import './ZigZagCont.css'
 

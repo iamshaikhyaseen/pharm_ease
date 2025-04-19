@@ -3,7 +3,7 @@ import emailjs from 'emailjs-com';
 import './LoginForm.css'
 import api from '../../../axiosConfig'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../../../assets/LogoDark.png'
+import logo from '../../../assets/LogoTest5.png'
 import { MedicalContext } from './MedicalContext'
 
 export default function() {
@@ -11,7 +11,7 @@ export default function() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const {setMedical}=useContext(MedicalContext);
+  const {setMedicalData}=useContext(MedicalContext);
 
   const sendLoginEmail=(toEmail,name)=>{
     const templateParams={
@@ -45,13 +45,13 @@ export default function() {
           });
 
           if (response.status === 200) {
-            setMedical(response.data);
+            setMedicalData(response.data);
             sendLoginEmail(response.data.email,response.data.name)
             console.log("Login Successfull");  
             navigate("/med-home")
           }
       } catch (err) {
-          alert('Login Failed');
+          
           setError('Invalid email or password');
           console.log(err);
       }

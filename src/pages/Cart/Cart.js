@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext,useState,useEffect } from 'react';
 import { CartContext } from './CartContext';
 import { MedicalContext } from '../LoginPage/components/MedicalContext';
 import './Cart.css';
@@ -19,6 +19,7 @@ const Cart = () => {
   const { cartItems,updateQuantity,calculateTotal,removeFromCart,clearCart} = useContext(CartContext);
   const navigate=useNavigate();
   const [showPaymentSection, setShowPaymentSection] = useState(false);
+  const [showAddressForm,setShowAddressForm]=useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardDetails, setCardDetails] = useState({
     cardNumber: '',
@@ -26,18 +27,27 @@ const Cart = () => {
     cvv: '',
   });
   const [errors, setErrors] = useState({});
+  const [medicalDetails,setMedicaldetails]=useState({});
+  useEffect(() => {
+    if (medicalData) {
+      setMedicaldetails(medicalData);
+    }
+  }, [medicalData]);
   const [billCreated, setBillCreated] = useState(false);
   const [billData, setBillData] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [paymentError, setPaymentError] = useState(''); 
 
-  const sendOrderMail=(toEmail,name)=>{
+  const sendOrderMail=(toEmail,name,billId)=>{
+    if (!billId) {
+      console.error("Error: Bill ID is null, skipping email.");
+      return;
+    }
     const templateParams = {
       to_email: toEmail,
       to_name: name,
       message: `Dear ${name}, your order has been placed successfully.`,
-      order_id:billData._id,
-      
+      order_id:billId,
     };
     emailjs.send(
       'service_yvuwvqn',
@@ -62,10 +72,39 @@ const Cart = () => {
   };
 
   const handlePaymentMethodChange = (e) => {
+    const paymentMethod=e.target.value;
     console.log("Selected payment method:", e.target.value);
-    setPaymentMethod(e.target.value); 
-    setPaymentError(''); // Use the event value to set the payment method
+    setPaymentMethod(paymentMethod);
+    if (paymentMethod === 'COD') {
+      setShowAddressForm(true); 
+    } else {
+      setShowAddressForm(false); 
+    }
+    setPaymentError(''); 
   };
+
+  const handleAddressChange=(e)=>{
+    setMedicaldetails({
+      ...medicalDetails,[e.target.name]:e.target.value,
+    });
+  };
+
+  const handleRegionChange=(e)=>{
+    setMedicaldetails({
+      ...medicalDetails,[e.target.name]:e.target.value,
+    });
+  };
+
+  const confirmAddress=async()=>{
+    try{
+      await api.put(`/medicals/${medicalDetails._id}`,medicalDetails);
+      toast.success("Address confirmed");
+    }catch(error){
+      console.log("Error updating address: "+error);
+      toast.error("Failed to confirm address");
+    };
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'cardNumber') {
@@ -85,7 +124,18 @@ const Cart = () => {
     }
     if (!/^\d{2}\/\d{2}$/.test(cardDetails.expiryDate)) {
       newErrors.expiryDate = 'Expiry date must be MM/YY format';
+    }else {
+      // Check if the card is expired
+      const [expMonth, expYear] = cardDetails.expiryDate.split('/').map(Number);
+      
+      const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
+      const currentMonth = new Date().getMonth() + 1; // Months are 0-based
+  
+      if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+        newErrors.expiryDate = 'Card is expired';
+      }
     }
+
     if (!/^\d{3}$/.test(cardDetails.cvv)) {
       newErrors.cvv = 'CVV must be 3 digits';
     }
@@ -96,7 +146,7 @@ const Cart = () => {
   const generatePDF = (bill) => {
     const doc = new jsPDF();
     
-    console.log(bill);
+    console.log("Bill: "+bill);
     
     doc.text(`Bill No: ${bill._id}`, 10, 10);
     doc.text(`Date: ${bill.date}`, 10, 20);
@@ -111,16 +161,16 @@ const Cart = () => {
       startY: 90,
       head: [['Product Name', 'Batch No', 'HSN Code', 'Pack', 'Expiry', 'Quantity', 'MRP','Rate','Total Price']],
       body: bill.products.map(item => [
-        item.name, item.batchNo, item.hsn, item.pack, item.expiry, item.quantity, `₹${item.mrp}`, `₹${item.rate}`,`₹${item.totalPrice}`
+        item.name, item.batchNo, item.hsn, item.pack, item.expiry, item.quantity, item.mrp, item.rate,item.totalPrice
       ])
     });
-    doc.text(`Grand Total: ₹${bill.grandTotal}`, 10, doc.previousAutoTable.finalY + 10);
+    doc.text(`Grand Total: ${bill.grandTotal}`, 10, doc.previousAutoTable.finalY + 10);
     doc.save(`PharmEase${bill._id}.pdf`);
 
     
   };
 
-  const handleProceed = () => {
+  const handleProceed = async () => {
     if (!paymentMethod) {
       setPaymentError('Please select a payment option');
       return;  // Stop the function if no payment option is selected
@@ -128,21 +178,32 @@ const Cart = () => {
     if (paymentMethod === 'Card' && !validateCardDetails()) {
       return;
     }
-  const handleOrderSuccess = () => {
+  const handleOrderSuccess =async () => {
     toast.success("Order Placed Successfully!");
     clearCart();
     };
 
-    const billDetails = {
-      
-      date: new Date().toISOString().split('T')[0],
-      dueDate: new Date(new Date().setDate(new Date().getDate() + 15)).toISOString().split('T')[0],
-      medicalId:medicalData._id,
+    const salesData = {
+      date: new Date().toISOString(),
+      medicalId: medicalData._id,
       medicalName: medicalData.name,
-      medicalAddress: medicalData.address,  // Replace with actual data
-      medicalRegion: medicalData.region,
-      gstin: medicalData.gstIn,
-      dlno: medicalData.dlNo,
+      region: medicalData.region,
+      totalAmount: calculateTotal(),
+      products: cartItems.map(item => ({
+        productId: item._id,
+        productName: item.name,
+        quantity: item.quantity,
+        price: item.rate
+      }))
+    };
+
+    const billDetails = {
+      medicalId:medicalData?._id,
+      medicalName: medicalData?.name,
+      medicalAddress: medicalData?.address,
+      medicalRegion: medicalData?.region,
+      gstin: medicalData?.gstin,
+      dlno: medicalData?.dlNo,
       products: cartItems.map(item => ({
         _id:item._id,
         name: item.name,
@@ -155,20 +216,34 @@ const Cart = () => {
         rate: item.rate
       })),
     };
-    console.log(billDetails);
-    // Send bill details to the API
-    api.post('/bills', billDetails)
-      .then(response => {
-        const data = response.data;
-        setBillData(data);
-        console.log("billData: "+data);
+    console.log("Bill details: "+billDetails);
+
+    api.post('/sales', salesData)
+    .then(response => {
+      console.log('Sales data saved:', response.data);
+      toast.success('Order Placed & Sales Updated');
+    })
+    .catch(error => {
+      console.error('Error saving sales data:', error);
+      toast.error('Failed to record sales data');
+
+    });
+   try{ 
+   const response= await api.post('/bills', billDetails);
+   const createdBill=response.data;
+        if(createdBill){
+        console.log("Response Data: "+response.data);
+        console.log("Bill Data: "+billData);
         setBillCreated(true);
-        sendOrderMail(medicalData.email,medicalData.name);
-        generatePDF(data);
-        handleOrderSuccess();  // Generate PDF after the bill is created
-      })
-      .catch(error => console.error('Error creating bill:', error));
+        setBillData(response.data);
+        sendOrderMail(medicalData.email,medicalData.name,createdBill._id);
+        generatePDF(response.data);
+        handleOrderSuccess(); 
+        }
+   }  
+      catch(error){console.error('Error creating bill:', error);
       toast.error("Failed to place Order!")
+      }
   };
 
   const showPaymentOptions = () => {
@@ -177,11 +252,11 @@ const Cart = () => {
 
   const handleProductClick = (e, product) => {
     e.stopPropagation();  // Prevent any event bubbling
-    navigate(`/${product._id}`);  // Navigate to the ProductDetails page
+    navigate(`/${product._id}`);  
   };
 
   const handleRemove = (product) => {
-    removeFromCart(product);  // Call removeFromCart function from context
+    removeFromCart(product);  
   };
 
   const handleStopPropagation = (e) => {
@@ -205,13 +280,14 @@ const Cart = () => {
 
   return (
     <>
+
     <Navbar/>
 
     <div className="cart-container">
       <ToastContainer position="bottom-right" autoClose={3000}/>
       <div className="cartLogo">
-    <FaShoppingCart size={35} color="#2c3e50" />
-      <h1>Your Cart</h1>
+        <FaShoppingCart size={35} color="#2c3e50" />
+        <h1>Your Cart</h1>
       </div>
       <div className="cart-items">
 
@@ -241,9 +317,9 @@ const Cart = () => {
                   <button className="remove-button" onClick={(e) => {
                   e.stopPropagation();  // Prevent navigating to product details
                   handleRemove(item);   // Remove item from cart
-                }}>
+                  }}>
                   <AiOutlineDelete />
-                </button>
+                  </button>
 
                 </div>
 
@@ -262,6 +338,7 @@ const Cart = () => {
         <h3>Total: ₹{calculateTotal()}</h3>
       </div>
       <button className="btn-order-now" onClick={showPaymentOptions}>Order Now</button>
+
       {showPaymentSection && (
         <div className="payment-section">
           <h3>Payment Options</h3>
@@ -327,6 +404,40 @@ const Cart = () => {
               {errors.cvv && <p className="error">{errors.cvv}</p>}
             </div>
           )}
+
+        {showAddressForm && (
+              <div className="address-confirmation">
+                <h4>Confirm Address</h4>
+                <p>Please confirm or update your delivery address.</p>
+                <div className="form-group">
+                  <label htmlFor="address">Address:</label>
+                  <textarea
+                    name="address"
+                    id="address"
+                    value={medicalDetails.address || ''}
+                    onChange={handleAddressChange}
+                    className="form-control"
+                    rows="3"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="region">Region:</label>
+                  <input
+                    type="text"
+                    name="region"
+                    id="region"
+                    value={medicalDetails.region || ''}
+                    onChange={handleRegionChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
+                <button className="btn btn-primary" onClick={confirmAddress}>
+                  Confirm Address
+                </button>
+              </div>
+            )}
 
           <button onClick={handleProceed} className="btn-proceed">
             Proceed

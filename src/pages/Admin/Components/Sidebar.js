@@ -1,14 +1,45 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import './Sidebar.css';  // Custom styles for the sidebar
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AdminContext } from './AdminContext';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Sidebar = ({ onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+  const navigate=useNavigate();
+  const handleLogout=()=>{
+    setAdmin(null);
+
+  }
+  const confirmLogOut = (id) => {
+      confirmAlert({
+        title: 'Confirm to Logout',
+        message: 'Are you sure you want to LogOut?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => handleLogout()
+          },
+          {
+            label: 'No',
+            onClick: () => toast.info('Logout operation cancelled.')
+          }
+        ]
+      });
+    };
+
+  const { setAdmin } = useContext(AdminContext);
+
   return (
     <>
+    <ToastContainer position="bottom-right" autoClose={3000} />
     <div className="hamburger" onClick={toggleSidebar}>
         &#9776;
             
@@ -25,10 +56,10 @@ const Sidebar = ({ onSelect }) => {
           <Link onClick={() => onSelect('medicals')}>Manage Medicals</Link>
         </li>
         <li>
-          <Link onClick={() => onSelect('orders')}>Manage Orders</Link>
+          <Link onClick={() => onSelect('salesAnalysis')}>Sales Analysis</Link>
         </li>
         <li>
-          <Link onClick={() => onSelect('salesAnalysis')}>Sales Analysis</Link>
+        <Link onClick={confirmLogOut}>Logout</Link>
         </li>
       </ul>
     </div>

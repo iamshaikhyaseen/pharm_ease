@@ -13,7 +13,7 @@ import { MedicalContext } from '../../LoginPage/components/MedicalContext';
 const MedicalMainNav = () => {
   const navigate = useNavigate();
   const {medicalData}=useContext(MedicalContext);
-  console.log(medicalData);
+  
 
   const handleLogOut = () => {
     

@@ -64,7 +64,7 @@ const slides = [
         <div className="carousel-content">
           <h2>{slides[currentIndex].heading}</h2>
           <p>{slides[currentIndex].description}</p>
-          <a href={slides[currentIndex].link} className="carousel-link">Learn More</a>
+          
         </div>
       </div>
       <button onClick={goToNextSlide} className="carousel-button next-button">
